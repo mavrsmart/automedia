@@ -1,0 +1,107 @@
+#!/bin/sh
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+#bluetoothd
+
+#/usr/bin/wvdial &
+
+echo "" > /tmp/mplayeroff
+
+sysctl -p
+
+
+#pon internet &
+#wvdial &
+
+/automedia/iptables.sh &
+
+
+service dnsmasq restart
+
+echo "nameserver 8.8.8.8" > /run/dnsmasq/resolv.conf
+
+#pon internet &
+
+service pulseaudio restart
+
+#echo "Шо опять?" | festival --tts --language russian &
+
+#killall disp
+
+mkdir /tmp/lirc
+
+mkdir /tmp/mikas
+echo "" > /tmp/mikas/probeg.bin
+echo "" > /tmp/mikas/param.bin
+
+echo "" > /tmp/pingtest
+echo "" > /tmp/bitrate
+echo "" > /tmp/title.cp1251
+echo "" > /tmp/streamtitle
+echo "" > /tmp/streamtitle.cp1251
+
+swapon /dev/sda3 &
+
+sysctl -p
+
+#/automedia/inetstart.sh &
+
+killall irexec
+
+sudo /usr/bin/irexec -d /etc/lirc/lircrc.conf 
+killall poweron.sh
+killall mplayer
+killall mplayer.sh
+killall watchdog.sh
+killall watchdog.sh
+killall pingtest.sh
+
+#Отправляем k-line
+#remserial -d -p 23000 -s "57600 raw" /dev/ttyUSB6 &
+#remserial -d -r 127.0.0.1 -p 23000 -s "57600 raw" /dev/ttyS1 &
+
+
+#/automedia/mikas/mikas &
+
+#/automedia/rssi.sh &
+
+
+#sleep 
+
+/automedia/setdefvol.sh &
+
+/automedia/arduino1/ard.sh &
+/automedia/watchdog.sh &
+/automedia/cubard/cubard.sh &
+/automedia/watchdogsoft.sh &
+/automedia/pingtest.sh &
+
+#/automedia/startupcron.sh &
+
+/automedia/setdefvol.sh &
+
+
+#sleep 1
+
+#pon internet &
+
+#/automedia/disp1602 &
+
+
+#irexec -d /etc/lirc/lircrc.conf
+
+#bash /automedia/poweron.sh &
+
+#mplayer -ao pulse /automedia/songs/SHaman.mp3 &
+
+exit 0
